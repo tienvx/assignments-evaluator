@@ -18,8 +18,16 @@ class AssignmentsEvaluator
     {
         foreach (explode(';', $assignmentExpression) as $index => $assignment) {
             list($variable, $expression) = $this->splitAssignment($assignment, $index);
-            $key = $this->expresionLanguage->evaluate($variable, [$variable => $variable]);
-            $values[$key] = $this->expresionLanguage->evaluate($expression, $values);
+            try {
+                $key = $this->expresionLanguage->evaluate($variable, [$variable => $variable]);
+                $values[$key] = $this->expresionLanguage->evaluate($expression, $values);
+            } catch (ExpressionLanguageSyntaxError $th) {
+                throw new SyntaxError(
+                    isset($key) ?
+                    sprintf('Expression "%s" is invalid: %s.', $expression, $th->getMessage()) :
+                    sprintf('Variable "%s" is invalid.', $variable)
+                );
+            }
         }
 
         return $values;
@@ -52,7 +60,10 @@ class AssignmentsEvaluator
         }
         $strings = explode('=', $assignment, 2);
         if (count($strings) < 2) {
-            throw new SyntaxError(sprintf('Assignment "%s" is invalid, expected "variable = expression".', $assignment));
+            throw new SyntaxError(sprintf(
+                'Assignment "%s" is invalid, expected "variable = expression".',
+                $assignment
+            ));
         }
         $variable = trim($strings[0]);
         if (empty($variable)) {

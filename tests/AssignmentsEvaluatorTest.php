@@ -23,20 +23,54 @@ class AssignmentsEvaluatorTest extends TestCase
 
     /**
      * @dataProvider validExpressionsProvider
-     * @testdox Evaluating expression $expression
+     * @testdox Evaluating valid expression $expression
      */
     public function testEvaluateValidExpression(string $expression, array $values, array $expected): void
     {
         $this->assertSame($expected, $this->assignmentsEvaluator->evaluate($expression, $values));
     }
 
-    public function validExpressionsProvider()
+    /**
+     * @dataProvider invalidExpressionsProvider
+     * @testdox Evaluating invalid expression $expression
+     */
+    public function testEvaluateInvalidExpression(string $expression, string $message): void
+    {
+        $this->expectException(SyntaxError::class);
+        $this->expectExceptionMessage($message);
+        $this->assignmentsEvaluator->evaluate($expression);
+    }
+
+    /**
+     * @dataProvider invalidExpressionsProvider
+     * @testdox Linting invalid expression $expression
+     */
+    public function testLintInvalidExpression(string $expression, string $message): void
+    {
+        $this->expectException(SyntaxError::class);
+        $this->expectExceptionMessage($message);
+        $this->assignmentsEvaluator->lint($expression);
+    }
+
+    /**
+     * @dataProvider validExpressionsProvider
+     * @testdox Evaluating valid expression $expression
+     */
+    public function testLintValidExpression(string $expression, array $values): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->assignmentsEvaluator->lint($expression, array_keys($values));
+    }
+
+    public function validExpressionsProvider(): array
     {
         $date = new \DateTime('2013-04-12');
 
         return [
             [
-                'year = date.modify("+3 years").format("Y"); month = date.format("M"); day = date.format("j"); dateString = day~" "~month~" "~year',
+                'year = date.modify("+3 years").format("Y"); ' .
+                'month = date.format("M"); ' .
+                'day = date.format("j"); dateString = day~" "~month~" "~year',
                 [
                     'date' => $date,
                 ],
@@ -57,7 +91,9 @@ class AssignmentsEvaluatorTest extends TestCase
                 ],
             ],
             [
-                'isEmailValid = email === "norval.strosin@hotmail.com" ; isPasswordValid = pass == "12345" ; isCredentialsValid = isEmailValid and isPasswordValid',
+                'isEmailValid = email === "norval.strosin@hotmail.com" ; ' .
+                'isPasswordValid = pass == "12345" ; ' .
+                'isCredentialsValid = isEmailValid and isPasswordValid',
                 [
                     'email' => 'boehm.elbert@gmail.com',
                     'pass' => 12345,
@@ -73,26 +109,29 @@ class AssignmentsEvaluatorTest extends TestCase
         ];
     }
 
-    /**
-     * @testWith ["", "Assignment at index \"0\" is empty."]
-     *           ["=", "Variable in assignment \"=\" is empty."]
-     *           [";", "Assignment at index \"0\" is empty."]
-     *           ["=;", "Variable in assignment \"=\" is empty."]
-     *           ["=;=", "Variable in assignment \"=\" is empty."]
-     *           ["var", "Assignment \"var\" is invalid, expected \"variable = expression\"."]
-     *           ["= right", "Variable in assignment \"= right\" is empty."]
-     *           ["left =", "Expression in assignment \"left =\" is empty."]
-     *           ["age == 37", "Expression \"= 37\" is invalid: Unexpected character \"=\" around position 0 for expression `= 37`.."]
-     *           ["browser === \"firefox\"", "Expression \"== \"firefox\"\" is invalid: Unexpected token \"operator\" of value \"==\" around position 1 for expression `== \"firefox\"`.."]
-     *           ["email = \"labadie.christina@hotmail.com\" ;", "Assignment at index \"1\" is empty."]
-     *           [";address = \"http://example.com\"", "Assignment at index \"0\" is empty."]
-     *           ["result += 2", "Variable \"result +\" is invalid."]
-     *           ["result = 1 ;; result = result + 1", "Assignment at index \"1\" is empty."]
-     */
-    public function testLintInvalidExpression(string $expression, string $message): void
+    public function invalidExpressionsProvider(): array
     {
-        $this->expectException(SyntaxError::class);
-        $this->expectExceptionMessage($message);
-        $this->assignmentsEvaluator->lint($expression);
+        return [
+            ['', 'Assignment at index "0" is empty.'],
+            [';', 'Assignment at index "0" is empty.'],
+            ['=;', 'Variable in assignment "=" is empty.'],
+            ['=;=', 'Variable in assignment "=" is empty.'],
+            ['var', 'Assignment "var" is invalid, expected "variable = expression".'],
+            ['= right', 'Variable in assignment "= right" is empty.'],
+            ['left =', 'Expression in assignment "left =" is empty.'],
+            [
+                'age == 37',
+                'Expression "= 37" is invalid: Unexpected character "=" around position 0 for expression `= 37`..',
+            ],
+            [
+                'browser === "firefox"',
+                'Expression "== "firefox"" is invalid: ' .
+                'Unexpected token "operator" of value "==" around position 1 for expression `== "firefox"`..',
+            ],
+            ['email = "labadie.christina@hotmail.com" ;', 'Assignment at index "1" is empty.'],
+            [';address = "http://example.com"', 'Assignment at index "0" is empty.'],
+            ['result += 2', 'Variable "result +" is invalid.'],
+            ['result = 1 ;; result = result + 1', 'Assignment at index "1" is empty.'],
+        ];
     }
 }
