@@ -1,12 +1,12 @@
 # Expression Language Assignments [![Build Status][actions_badge]][actions_link] [![Coverage Status][coveralls_badge]][coveralls_link] [![Version][version-image]][version-url] [![PHP Version][php-version-image]][php-version-url]
 
 [Symfony Expression Language][expression-language] only return single value per expression.
-It does not support assignment. This library add assignments support by allowing assign a value/expression to a variable for each assignment.
+It does not support assignment. This library allow assigning result of that expression's evaluation to a variable. It also support multiple assignments.
 
 ## Installation
 
 ```shell
-composer require tienvx/expression-language-assignments
+composer require tienvx/assignments-evaluator
 ```
 
 ## Documentation
@@ -52,18 +52,18 @@ array(5) {
 
 ## License
 
-[MIT](https://github.com/tienvx/expression-language-assignments/blob/main/LICENSE)
+[MIT](https://github.com/tienvx/assignments-evaluator/blob/main/LICENSE)
 
-[actions_badge]: https://github.com/tienvx/expression-language-assignments/workflows/main/badge.svg
-[actions_link]: https://github.com/tienvx/expression-language-assignments/actions
+[actions_badge]: https://github.com/tienvx/assignments-evaluator/workflows/main/badge.svg
+[actions_link]: https://github.com/tienvx/assignments-evaluator/actions
 
-[coveralls_badge]: https://coveralls.io/repos/tienvx/expression-language-assignments/badge.svg?branch=main&service=github
-[coveralls_link]: https://coveralls.io/github/tienvx/expression-language-assignments?branch=main
+[coveralls_badge]: https://coveralls.io/repos/tienvx/assignments-evaluator/badge.svg?branch=main&service=github
+[coveralls_link]: https://coveralls.io/github/tienvx/assignments-evaluator?branch=main
 
-[version-url]: https://packagist.org/packages/tienvx/expression-language-assignments
-[version-image]: http://img.shields.io/packagist/v/tienvx/expression-language-assignments.svg?style=flat
+[version-url]: https://packagist.org/packages/tienvx/assignments-evaluator
+[version-image]: http://img.shields.io/packagist/v/tienvx/assignments-evaluator.svg?style=flat
 
-[php-version-url]: https://packagist.org/packages/tienvx/expression-language-assignments
+[php-version-url]: https://packagist.org/packages/tienvx/assignments-evaluator
 [php-version-image]: http://img.shields.io/badge/php-7.4.0+-ff69b4.svg
 
 [expression-language]: https://symfony.com/doc/current/components/expression_language.html
