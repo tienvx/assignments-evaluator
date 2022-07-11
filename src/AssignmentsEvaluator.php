@@ -50,11 +50,19 @@ class AssignmentsEvaluator
         if (empty($assignment)) {
             throw new SyntaxError(sprintf('Assignment at index "%d" is empty.', $index));
         }
-        $strings = explode('=', $assignment);
-        if (count($strings) !== 2) {
-            throw new SyntaxError(sprintf('Assignment "%s" is invalid, "var = expression" is expected.', $assignment));
+        $strings = explode('=', $assignment, 2);
+        if (count($strings) < 2) {
+            throw new SyntaxError(sprintf('Assignment "%s" is invalid, expected "variable = expression".', $assignment));
+        }
+        $variable = trim($strings[0]);
+        if (empty($variable)) {
+            throw new SyntaxError(sprintf('Variable in assignment "%s" is empty.', $assignment));
+        }
+        $expression = trim($strings[1]);
+        if (empty($expression)) {
+            throw new SyntaxError(sprintf('Expression in assignment "%s" is empty.', $assignment));
         }
 
-        return $strings;
+        return [$variable, $expression];
     }
 }

@@ -13,18 +13,41 @@ composer require tienvx/expression-language-assignments
 
 ```php
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Tienvx\AssignmentsEvaluator\AssignmentsEvaluator;
 
-$expressionLanguage = new ExpressionLanguage();
+class Robot
+{
+    public function sayHi(string $name): string
+    {
+        return sprintf('Hi %s!', $name);
+    }
+}
 
-var_dump($expressionLanguage->evaluate(
-    'fullName = firstName~" "~lastName; fileType = extension in ["apng", "avif", "jpg", "jpeg", "png", "gif", "webp", "bmp", "svg", "ico", "tif", "tiff"] ? "image", "other"; isStable = not(version matches "rc|beta|alpha")',
+$assignmentsEvaluator = new AssignmentsEvaluator(new ExpressionLanguage());
+
+var_dump($assignmentsEvaluator->evaluate(
+    'fullName = firstName~" "~lastName; hello = robot.sayHi(fullName)',
     [
         'firstName' => 'Madonna',
         'lastName' => 'Jenkins',
-        'extension' => 'webm',
-        'version' => '1.0.0-rc.1',
+        'robot' => new Robot(),
     ]
-)); // displays "Honeycrisp"
+));
+/* displays
+array(5) {
+  ["firstName"]=>
+  string(7) "Madonna"
+  ["lastName"]=>
+  string(7) "Jenkins"
+  ["robot"]=>
+  object(Robot)#8 (0) {
+  }
+  ["fullName"]=>
+  string(15) "Madonna Jenkins"
+  ["hello"]=>
+  string(19) "Hi Madonna Jenkins!"
+}
+*/
 ```
 
 ## License
