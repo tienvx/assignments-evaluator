@@ -1,4 +1,4 @@
-# Expression Language Assignments [![Build Status][actions_badge]][actions_link] [![Coverage Status][coveralls_badge]][coveralls_link] [![Version][version-image]][version-url] [![PHP Version][php-version-image]][php-version-url]
+# Assignments Evaluator [![Build Status][actions_badge]][actions_link] [![Coverage Status][coveralls_badge]][coveralls_link] [![Version][version-image]][version-url] [![PHP Version][php-version-image]][php-version-url]
 
 [Symfony Expression Language][expression-language] only return single value per expression.
 It does not support assignment. This library allow assigning result of that expression's evaluation to a variable. It also support multiple assignments.
