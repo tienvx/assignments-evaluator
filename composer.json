@@ -3,7 +3,7 @@
     "description": "Allow assign value of Symfony Expression Language's expressions to variables",
     "type": "library",
     "require": {
-        "symfony/expression-language": "^4.4|^5.4|^6.0",
+        "symfony/expression-language": "^5.4|^6.0",
         "php": "^7.4|^8.0"
     },
     "require-dev": {
