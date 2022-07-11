@@ -1,9 +1,9 @@
 {
-    "name": "tienvx/expression-language-assignments",
-    "description": "Extend Symfony Expression Language with assignment(s) support",
+    "name": "tienvx/assignments-evaluator",
+    "description": "Allow assign value of Symfony Expression Language's expressions to variables",
     "type": "library",
     "require": {
-        "symfony/expression-language": "^4.4|^5.4|^6.0",
+        "symfony/expression-language": "^5.4|^6.0",
         "php": "^7.4|^8.0"
     },
     "require-dev": {
@@ -12,13 +12,19 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Tienvx\\ExpressionLanguageAssignments\\": "src/"
+            "Tienvx\\AssignmentsEvaluator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tienvx\\AssignmentsEvaluator\\Tests\\": "tests/"
         }
     },
     "authors": [
         {
-            "name": "tienvx",
-            "email": "tien.xuan.vo@gmail.com"
+            "name": "Tien Vo Xuan",
+            "email": "tien.xuan.vo@gmail.com",
+            "homepage": "https://tienvx.github.io/"
         }
     ]
 }
