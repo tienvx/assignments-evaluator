@@ -48,6 +48,11 @@ array(5) {
   string(19) "Hi Madonna Jenkins!"
 }
 */
+
+$assignmentsEvaluator->lint('title = "Dr."; firstName = "zane"; lastName = "stroman"; name = title~ucfirst(firstName)~" "~ucfirst(lastName)');
+/* throw
+PHP Fatal error:  Uncaught Tienvx\AssignmentsEvaluator\SyntaxError: Expression "title~ucfirst(firstName)~" "~ucfirst(lastName)" is invalid: The function "ucfirst" does not exist around position 7 for expression `title~ucfirst(firstName)~" "~ucfirst(lastName)`..
+*/
 ```
 
 ## License
