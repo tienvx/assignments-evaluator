@@ -16,6 +16,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         tools: phpstan, phpcs, php-cs-fixer:3
+        coverage: pcov
 
     - name: Checkout
       uses: actions/checkout@v2
