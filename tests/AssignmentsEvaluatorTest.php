@@ -54,12 +54,22 @@ class AssignmentsEvaluatorTest extends TestCase
 
     /**
      * @dataProvider validExpressionsProvider
-     * @testdox Evaluating valid expression $expression
+     * @testdox Linting valid expression $expression with allowed variables
      */
-    public function testLintValidExpression(string $expression, array $values): void
+    public function testLintValidExpressionWithAllowedVariables(string $expression, array $values): void
     {
         $this->expectNotToPerformAssertions();
         $this->assignmentsEvaluator->lint($expression, array_keys($values));
+    }
+
+    /**
+     * @dataProvider validExpressionsProvider
+     * @testdox Linting valid expression $expression without allowed variables
+     */
+    public function testLintValidExpressionWithoutAllowedVariables(string $expression): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->assignmentsEvaluator->lint($expression);
     }
 
     public function validExpressionsProvider(): array

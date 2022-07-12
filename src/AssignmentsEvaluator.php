@@ -33,7 +33,7 @@ class AssignmentsEvaluator
         return $values;
     }
 
-    public function lint($assignmentExpression, array $names = []): void
+    public function lint($assignmentExpression, ?array $names = null): void
     {
         foreach (explode(';', $assignmentExpression) as $index => $assignment) {
             list($variable, $expression) = $this->splitAssignment($assignment, $index);
@@ -47,7 +47,7 @@ class AssignmentsEvaluator
             } catch (ExpressionLanguageSyntaxError $th) {
                 throw new SyntaxError(sprintf('Expression "%s" is invalid: %s.', $expression, $th->getMessage()));
             }
-            if (!in_array($variable, $names, true)) {
+            if (is_array($names) && !in_array($variable, $names, true)) {
                 $names[] = $variable;
             }
         }
